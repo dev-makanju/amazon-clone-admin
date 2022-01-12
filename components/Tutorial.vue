@@ -6,9 +6,9 @@
                          <div class="colum-sm-8 col-8">
                               <h1 class="a-size-large a-spacing-none a-text-normal">All Products</h1>
                                <!---BUTTONS-->
-                               <a href="#" class="a-button-buy-again">Add a new product</a>
-                               <a href="#" class="a-button-history margin-right-10">Add a new cartigory</a>
-                               <a href="#" class="a-button-history margin-right-10">Add a new owner</a>
+                               <nuxt-link to="/products" class="a-button-buy-again">Add a new product</nuxt-link>
+                               <nuxt-link to="/catigory" class="a-button-history margin-right-10">Add a new cartigory</nuxt-link>
+                               <nuxt-link to="/owner" class="a-button-history margin-right-10">Add a new owner</nuxt-link>
                                <!--LISTING PAGE-->
                          </div>
                     </div>
@@ -49,8 +49,8 @@
                               </span>
                          </div>
                          <div class="a-row">
-                              <a href="" class="a-button-history margin-right-10">update</a>
-                              <a href="" class="a-button-history margin-right-10">delete</a>
+                              <nuxt-link :to="`/products/${product._id}`" class="a-button-history margin-right-10">update</nuxt-link>
+                              <a href="" class="a-button-history margin-right-10" @click="onDeleteProduct(product._id , index)">delete</a>
                          </div>
                     </div>
                     </div>
@@ -63,6 +63,18 @@
 export default {
      name:"Tutorial",
      props:['products'],
+     methods: {
+      async onDeleteProduct(id , index){
+        try{
+            let response = await this.$axios.delete(`http://localhost:5000/api/products/${id}`)
+            if(response.status){
+                this.products.splice(index , 1)
+            }
+        }catch(err){ 
+            console.log(err)
+        }
+      }
+  }
 };
 </script>
 
